@@ -11,7 +11,11 @@ A cross-platform desktop note-taking application built using **Electron**, **Vit
 - 🧠 Real-time autosave to `localStorage` with timestamped keys.
 - 💾 Save notes to a file on disk (default or custom path)
 - 🧩 Preview toggle, save log, and side-by-side layout
+- 🧰 Runs silently in the background with tray menu
+- 🔁 Auto-launches on system startup (optional)
+- 🎯 Launch using `Ctrl+Alt+N` (Windows/Linux) or `Cmd+Alt+N` (macOS)
 - 🖥️ Cross-platform builds for macOS, Linux, and Windows
+
 
 ---
 
@@ -93,6 +97,11 @@ This will:
 1. Run `vite build`
 2. Package Electron app using `electron-builder`
 
+### Optional (for auto-launch support)
+```bash
+npm install auto-launch
+```
+
 ### 💻 Build for macOS or Linux
 
 ```bash
@@ -116,6 +125,11 @@ After building:
 
 The app will save notes to your **home directory by default**, unless a custom path is provided during install.
 
+Once installed:
+
+- The app starts in the background (system tray)
+- Access it via the tray icon or press `Ctrl+Alt+N` (or `Cmd+Alt+N` on macOS)
+- Notes are saved to your local system even if you forget to hit "Save"
 ---
 
 ## 🧭 Future Scope
