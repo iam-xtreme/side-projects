@@ -33,7 +33,8 @@ const writeInMemory = () => {
 };
 const close = () => {
   saveNote();
-  window.close();
+  //window.close();
+  window?.noteAPI?.close();
 };
 const registerShortcuts = () => {
   document.addEventListener("keydown", (e) => {

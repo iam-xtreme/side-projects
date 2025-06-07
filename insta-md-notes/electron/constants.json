@@ -5,6 +5,8 @@
     "isPreviewVisible": false
   },
   "window": {
+    "title":"Insta MD Notes",
+    "globalShortcut":"CommandOrControl+Alt+N",
     "default": {
       "width": 600,
       "height": 300,
