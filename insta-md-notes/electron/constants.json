@@ -1,0 +1,18 @@
+{
+  "defaultConfig": {
+    "folderName": "insta-md-notes",
+    "saveIntervalInSeconds": 60,
+    "isPreviewVisible": false
+  },
+  "window": {
+    "default": {
+      "width": 600,
+      "height": 300,
+      "frame": false,
+      "transparent": true,
+      "alwaysOnTop": true,
+      "opacity": 1
+    },
+    "offset": 20
+  }
+}

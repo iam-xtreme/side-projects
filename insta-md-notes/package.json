@@ -1,0 +1,23 @@
+{
+  "name": "insta-md-notes",
+  "version": "1.0.0",
+  "main": "electron/app.js",
+  "scripts": {
+    "dw": "vite",
+    "dev": "concurrently -k \"vite\" \"wait-on http://localhost:3000 && npx nodemon --watch electron/* --exec electron .\"",
+     "build": "vite build && electron-builder --config electron-builder.json",
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^29.0.0",
+    "electron-builder": "^26.0.12",
+    "marked": "^10.0.0",
+    "nodemon": "^3.1.10",
+    "vite": "^6.3.5",
+    "wait-on": "^8.0.3"
+  },
+  "dependencies": {
+    "ini": "^5.0.0"
+  }
+}

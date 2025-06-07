@@ -1,0 +1,28 @@
+{
+  "appId": "com.inspirion.insta.md.notes",
+  "productName": "Instant Markdown Notes",
+  "directories": {
+    "buildResources": "assets",
+    "output": "release"
+  },
+  "files": [
+    "dist/**",
+    "electron/**",
+    "config.json"
+  ],
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": false,
+    "include": "build/installer.nsh"
+  },
+  "win": {
+    "target": "nsis"
+  },
+  "mac": {
+    "target": "dmg"
+  },
+  "linux": {
+    "target": "AppImage"
+  }
+}
