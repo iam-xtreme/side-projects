@@ -12,88 +12,110 @@ const { ipcMain } = require("electron");
 
 const { loadConfig, saveNote } = require("./util");
 const constants = require("./constants.json");
-const config = loadConfig(constants.defaultConfig);
-const _icon = path.join(__dirname, "assets", "icon.png");
-let tray = null;
-let _window;
+const logger = require("./logger");
 
-const noteAppAutoLauncher = new AutoLaunch({
-  name: constants.window.title,
-  path: app.getPath("exe"),
-});
-
-ipcMain.on("save-note", (event, data) =>
-  saveNote(data, config.savePath, event)
-);
-ipcMain.on("close-app", (event) => _window.close());
-
-ipcMain.handle("get-config", () => {
-  let { saveIntervalInSeconds, isPreviewVisible, ...rest } = config;
-  return {
-    saveIntervalInSeconds,
-    isPreviewVisible,
-  };
-});
-
-createWindow = () => {
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-  _window = new BrowserWindow({
-    ...constants.window.default,
-    x: width - (constants.window.default.width + constants.window.offset),
-    y: height - (constants.window.default.height + constants.window.offset),
-    icon: _icon,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      contextIsolation: true,
-      nodeIntegration: false,
-    },
-  });
-
-  const devServer = !app.isPackaged
-    ? process.env.VITE_DEV_SERVER_URL || "http://localhost:3000"
-    : undefined;
-  if (devServer) {
-    _window.loadURL(devServer);
-  } else {
-    _window.loadFile(path.join(__dirname, "../dist/index.html"));
+class NoteApp {
+  constructor() {
+    this.tray = null;
+    this.window = null;
   }
-  _window.on("close", (event) => {
+
+  async init() {
+    this.config = await loadConfig(constants.defaultConfig);
+    await this.createWindow();
+    await this.createTray();
+    this.registerGlobalShortcut();
+    this.setupAutoLaunch();
+    this.registerIpcHandlers();
+  }
+  async registerIpcHandlers() {
+    ipcMain.on("save-note", async (event, data) => {
+      const response = await saveNote(data, this.config.savePath);
+      event.sender.send("note-saved", response);
+    });
+
+    ipcMain.on("close-app", (event) => this.window.close());
+
+    ipcMain.handle("get-config", () => {
+      let { saveIntervalInSeconds, isPreviewVisible } = this.config;
+      return {
+        saveIntervalInSeconds,
+        isPreviewVisible,
+      };
+    });
+  }
+  async createWindow() {
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    const windowOptions = {
+      ...constants.window.default,
+      x: width - (constants.window.default.width + constants.window.offset),
+      y: height - (constants.window.default.height + constants.window.offset),
+      icon: path.join(__dirname, "assets", "icon.png"),
+      webPreferences: {
+        preload: path.join(__dirname, "preload.js"),
+        contextIsolation: true,
+        nodeIntegration: false,
+      },
+    };
+
+    this.window = new BrowserWindow(windowOptions);
+    this.window.loadURL(this.getLoadUrl());
+    this.window.on("close", this.handleWindowClose.bind(this));
+  }
+
+  async createTray() {
+    this.tray = new Tray(path.join(__dirname, "assets", "icon.png"));
+    const contextMenu = Menu.buildFromTemplate([
+      // Add menu items here
+    ]);
+    this.tray.setToolTip(constants.window.title);
+    this.tray.setContextMenu(contextMenu);
+  }
+
+  registerGlobalShortcut() {
+    const ret = globalShortcut.register(constants.window.globalShortcut, () => {
+      this.window.show();
+      this.window.focus();
+    });
+    if (!ret) {
+      logger.error("Failed to register shortcut");
+    }
+  }
+
+  setupAutoLaunch() {
+    const noteAppAutoLauncher = new AutoLaunch({
+      name: constants.window.title,
+      path: app.getPath("exe"),
+    });
+
+    noteAppAutoLauncher.isEnabled().then((isEnabled) => {
+      if (!isEnabled) {
+        noteAppAutoLauncher.enable().catch((error) => {
+          logger.error("Auto-launch setup failed:", error);
+        });
+      }
+    });
+  }
+
+  getLoadUrl() {
+    const devServer = !app.isPackaged
+      ? process.env.VITE_DEV_SERVER_URL || constants.debug.clientUrl
+      : undefined;
+    return devServer || path.join(__dirname, "../dist/index.html");
+  }
+
+  handleWindowClose(event) {
     event.preventDefault();
-    _window.hide();
-    // If you want to run completely in the background on macOS:
+    this.window.hide();
     if (process.platform === "darwin") {
       app.dock.hide();
     }
-  });
-};
-
-app.whenReady().then(() => {
-  noteAppAutoLauncher.isEnabled().then((isEnabled) => {
-    if (!isEnabled) {
-      noteAppAutoLauncher.enable().catch((err) => {
-        console.error("Auto-launch setup failed:", err);
-      });
-    }
-  });
-
-  createWindow();
-  tray = new Tray(_icon);
-  const contextMenu = Menu.buildFromTemplate([
-    { label: `Open ${constants.window.title}`, click: () => _window.show() },
-    { label: "Quit", click: () => app.quit() },
-  ]);
-  tray.setToolTip(constants.window.title);
-  tray.setContextMenu(contextMenu);
-
-  // 🧷 Register global shortcut
-  const ret = globalShortcut.register(constants.window.globalShortcut, () => {
-    _window.show();
-    _window.focus();
-  });
-
-  if (!ret) {
-    console.error("Failed to register shortcut");
   }
+}
+
+const noteApp = new NoteApp();
+app.on("ready", () => {
+  noteApp.init();
 });
 
 app.on("will-quit", () => {

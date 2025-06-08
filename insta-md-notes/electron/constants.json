@@ -4,6 +4,9 @@
     "saveIntervalInSeconds": 60,
     "isPreviewVisible": false
   },
+  "debug": {
+    "clientUrl": "http://localhost:3000"
+  },
   "window": {
     "title":"Insta MD Notes",
     "globalShortcut":"CommandOrControl+Alt+N",
