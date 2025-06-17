@@ -1,6 +1,6 @@
 {
   "appId": "com.inspirion.insta.md.notes",
-  "productName": "Instant Markdown Notes",
+  "productName": "insta.md.notes",
   "directories": {
     "buildResources": "assets",
     "output": "release"
@@ -24,5 +24,7 @@
   "linux": {
     "target": ["AppImage", "deb"],
     "icon": "assets/icon.png"
-  }
+  },
+  "removePackageScripts": true,
+  "removePackageKeywords": true
 }

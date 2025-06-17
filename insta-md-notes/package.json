@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "main": "electron/app.js",
   "scripts": {
-    "dw": "vite",
-    "dev": "concurrently -k \"vite\" \"wait-on http://localhost:3000 && npx nodemon --watch electron/* --exec electron .\"",
+    "dev": "concurrently -k \"vite\" \"wait-on http://localhost:3000 && electron .\"",
+    "dev:electron": "nodemon --watch electron --exec \"electron .\"",
+    "prebuild": "node -e \"const fs = require('fs'); const path = require('path'); const releaseDir = path.join(__dirname, 'release'); if (fs.existsSync(releaseDir)) { fs.rmSync(releaseDir, { recursive: true, force: true }); console.log('🧹 Cleaned release folder'); } else { console.log('📁 Release folder does not exist, skipping cleanup'); }\"",
     "build": "vite build && electron-builder --config electron-builder.json",
-    "start": "electron ."
+    "build:dir": "vite build && electron-builder --dir",
+    "start": "electron .",
+    "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",

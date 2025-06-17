@@ -8,7 +8,7 @@
     "clientUrl": "http://localhost:3000"
   },
   "window": {
-    "title":"Insta MD Notes",
+    "title":"Instant MD Notes",
     "globalShortcut":"CommandOrControl+Alt+N",
     "default": {
       "width": 600,

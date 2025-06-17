@@ -4,6 +4,12 @@ set -e
 APP_NAME="NoteApp"
 RELEASE_DIR="release"
 
+echo "🧹 Cleaning release folder..."
+if [ -d "$RELEASE_DIR" ]; then
+  rm -rf "$RELEASE_DIR"
+  echo "✅ Cleaned existing release folder"
+fi
+
 echo "🔧 Building frontend with Vite..."
 npm run build
 
