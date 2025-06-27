@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Note App</title>
-</head>
-<body>
-  <div id="container">
-        <div id="bottom-bar">
-      <button id="close-save">Close</button>
-      <button id="hide-preview">Hide Preview</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Note App</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="bottom-bar">
+        <button id="close-save">Close</button>
+        <button id="hide-preview">Hide Preview</button>
+        <button id="open-notes">Open Notes</button>
+      </div>
+      <div id="editor-area">
+        <textarea id="note" placeholder="Take Notes..."></textarea>
+        <div id="preview"></div>
+      </div>
+      <div id="log"></div>
     </div>
-    <div id="editor-area">
-      <textarea id="note" placeholder="Take Notes..."></textarea>
-      <div id="preview"></div>
-    </div>
-    <div id="log"></div>
-  </div>
 
-  <script type="module" src="./client.js"></script>
-</body>
+    <script type="module" src="./client.js"></script>
+  </body>
 </html>

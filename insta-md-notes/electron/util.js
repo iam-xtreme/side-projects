@@ -4,7 +4,7 @@ const os = require("os");
 const ini = require("ini");
 const logger = require("./logger");
 
-const fileName = new Date().toISOString().split("T")[0];
+const getFileName = () => new Date().toISOString().split("T")[0];
 
 const checkFolderPath = async (folderPath) => {
   try {
@@ -50,7 +50,7 @@ const loadConfig = async (defaultConfig) => {
 };
 
 const saveNote = async (data, folderPath) => {
-  const saveFilePath = path.join(folderPath, `${fileName}.md`);
+  const saveFilePath = path.join(folderPath, `${getFileName()}.md`);
   if (data && data.time && data.content) {
     const newContent = getFormattedContent(data.time, data.content);
     try {
