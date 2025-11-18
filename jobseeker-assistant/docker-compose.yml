@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  gradio_app:
+    build: .
+    container_name: gradio_app
+    restart: unless-stopped
+    ports:
+      - "7860:7860"
+    environment:
+      - API_KEY=${API_KEY}
+    volumes:
+      - ./data:/app/data
+    command: >
+      sh -c "python src/app.py"

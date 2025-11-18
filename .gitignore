@@ -2,3 +2,7 @@
 */dist/*
 */release/*
 */.vscode/*
+*/**/.gradio/*
+*/**/__pycache__/*
+*/**/venv/*
+*/**/.env
