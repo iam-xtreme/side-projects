@@ -1,14 +1,8 @@
 {
     "llm": {
         "groq": {
-            "apiKey": "",
             "url": "https://api.groq.com/openai/v1/chat/completions"
         },
-        "local": {
-            "apiKey": "",
-            "url": "http://localhost:11434/api/generate"
-        },
-        "use": "groq",
         "models": [
             "meta-llama/llama-prompt-guard-2-86m",
             "openai/gpt-oss-safeguard-20b",
@@ -32,7 +26,20 @@
             "openai/gpt-oss-20b"
         ]
     },
-    "jobs": {
+    "export": {
+        "path": "data/content",
+        "args": {
+            "pdf": [
+                "--pdf-engine=wkhtmltopdf",
+                "--variable",
+                "geometry:margin=1cm"
+            ],
+            "docx": [
+                "--reference-doc=data/reference.docx"
+            ]
+        }
+    },
+    "prompts": {
         "responses": {
             "prompt": "You are a senior software architect. Generate a crisp, apt, and professional response.\nRecruiter's message:\n{message}\n\nGenerate a response that:\n1. Thanks them for reaching out\n2. Expresses genuine interest\n3. Asks relevant questions\n4. Suggests next steps\n5. Keep it under 200 words. keep it natural and human like.",
             "model": "openai/gpt-oss-120b"
@@ -42,19 +49,6 @@
             "model": "openai/gpt-oss-120b",
             "input": {
                 "baseResume": "data/base-resume.md"
-            },
-            "export": {
-                "path": "data/content",
-                "args": {
-                    "pdf": [
-                        "--pdf-engine=wkhtmltopdf",
-                        "--variable",
-                        "geometry:margin=1cm"
-                    ],
-                    "docx": [
-                        "--reference-doc=data/reference.docx"
-                    ]
-                }
             }
         },
         "coverLetter": {
@@ -62,19 +56,6 @@
             "model": "openai/gpt-oss-120b",
             "input": {
                 "baseResume": "data/base-resume.md"
-            },
-            "export": {
-                "path": "data/content",
-                "args": {
-                    "pdf": [
-                        "--pdf-engine=wkhtmltopdf",
-                        "--variable",
-                        "geometry:margin=1cm"
-                    ],
-                    "docx": [
-                        "--reference-doc=data/reference.docx"
-                    ]
-                }
             }
         },
         "ats": {

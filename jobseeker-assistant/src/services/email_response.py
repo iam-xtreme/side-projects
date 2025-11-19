@@ -4,9 +4,8 @@ class EmailResponse:
         self.llm=llm_interface
 
     def response(self, message):
-        prompt=self.config['prompt']
+        template=self.config['prompt']
         model=self.config['model']
+        prompt = template.format(message=message)
         return self.llm.generate(prompt, model)
-    
-    def get_fields(self):
-        return self.config['input']
+

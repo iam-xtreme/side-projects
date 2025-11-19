@@ -4,7 +4,8 @@ from dotenv import dotenv_values
 
 class Config:
     def __init__(self):
-        pass
+        config = self.__load_config()
+        self.config = config
 
     def __set_nested_value(self, d, key_path, value):
         """Set a nested key in a dictionary given a dot-separated path."""
@@ -14,7 +15,7 @@ class Config:
             current = current.setdefault(k, {})
         current[keys[-1]] = value
 
-    def load_config(self):
+    def __load_config(self):
         config_path = Path("data/config.json")
         config = json.loads(config_path.read_text())
 
@@ -25,4 +26,12 @@ class Config:
         for key_path, value in env_vars.items():
             self.__set_nested_value(config, key_path, value)
 
+        return config
+
+    def get(self, key_path=None):
+        config = self.config
+        if key_path is not None:
+            keys = key_path.split(".")
+            for k in keys:
+                config = config[k]
         return config

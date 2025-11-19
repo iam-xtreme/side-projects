@@ -6,16 +6,19 @@ from services.email_response import EmailResponse
 from services.resume import Resume
 from services.ats import AtsCheck
 from services.config import Config
+from services.utils import cleanup, markdown_to_docx_and_pdf
 
-config_service = Config()
-config = config_service.load_config()
+config = Config()
 
-jobs=config['jobs']
-llm=LLMInterface(config['llm'])
-email=EmailResponse(jobs['responses'], llm)
-resume=Resume(jobs['resume'], llm)
-cv=Resume(jobs['coverLetter'], llm)
-ats=AtsCheck(jobs['ats'], llm)
+llm=LLMInterface(config.get('llm'))
+email=EmailResponse(config.get('prompts.responses'), llm)
+resume=Resume(config.get('prompts.resume'), llm)
+cv=Resume(config.get('prompts.coverLetter'), llm)
+ats=AtsCheck(config.get('prompts.ats'), llm)
+
+# Cleanup export folder with all files having extensions like .md, .docx & .pdf before starting
+cleanup(config.get('export.path'))
+export_config = config.get('export')
 
 with gr.Blocks(title="Hiring Assistant", css=".file-download {height: 4em !important;}") as window:
     gr.Markdown("# 🤖 Personal Hiring AI Assistant")
@@ -92,12 +95,12 @@ with gr.Blocks(title="Hiring Assistant", css=".file-download {height: 4em !impor
             outputs=cover_letter_op
         )
         export_resume_btn.click(
-            resume.markdown_to_docx_and_pdf,
+            markdown_to_docx_and_pdf,
             inputs=[resume_output, candidate, resume_btn],
             outputs=[ export_resume_to_docx, export_resume_to_pdf ]
         )
         export_cvl_btn.click(
-            cv.markdown_to_docx_and_pdf,
+            markdown_to_docx_and_pdf,
             inputs=[cover_letter_op, candidate, cover_letter_btn],
             outputs=[ export_cvl_to_docx, export_cvl_to_pdf ]
         )
