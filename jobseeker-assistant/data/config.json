@@ -27,7 +27,7 @@
         ]
     },
     "export": {
-        "path": "data/content",
+        "path": "file://data/content",
         "args": {
             "pdf": [
                 "--pdf-engine=wkhtmltopdf",
@@ -45,17 +45,18 @@
             "model": "openai/gpt-oss-120b"
         },
         "resume": {
-            "prompt": "Update and Rewrite my resume for the {job_title} role at {company} by focusing on relevant skills mentioned in the job description. Resume should\n - sound more results-driven, quantifiable, and compelling for target role. \n - Focus on achievements, not just duties. \n - be fully optimized for Applicant Tracking Systems (ATS). \n - match the job description line by line sounding a perfect fit without sounding forced\n\nUse industry-specific keywords naturally.\n\nJob Description: \n{job_description}\n\nCurrent Resume: \n{base_resume}",
+            "prompt": "file://data/prompts/resume-update.md",
             "model": "openai/gpt-oss-120b",
             "input": {
-                "baseResume": "data/base-resume.md"
+                "baseResume": "file://data/base-resume.md",
+                "jdAnalysis":"Analyze this job description and extract:\n1. Key technical skills required\n2. Soft skills mentioned\n3. Experience level needed\n4. Industry-specific keywords\n\nJob Description:\n{job_description}\n\nReturn as JSON with keys: technical_skills, soft_skills, experience_level, keywords"
             }
         },
         "coverLetter": {
             "prompt": "write me a cover letter to apply for the position of {job_title} role at {company} by focusing on relevant skills mentioned in the job description. Refer my base resume and job description for the context.  \nJob Description: \n{job_description} \n\nCurrent Resume: \n{base_resume}. \n\nThe cover letter should:\n1. Be 3-4 paragraphs, max 300 words\n2. Show enthusiasm for the role\n3. Highlight 2-3 relevant achievements\n4. Explain why you're a good fit\n5. Sound authentic & stategic fit, not generic.",
             "model": "openai/gpt-oss-120b",
             "input": {
-                "baseResume": "data/base-resume.md"
+                "baseResume": "file://data/base-resume.md"
             }
         },
         "ats": {

@@ -20,28 +20,31 @@ ats=AtsCheck(config.get('prompts.ats'), llm)
 cleanup(config.get('export.path'))
 export_config = config.get('export')
 
-with gr.Blocks(title="Hiring Assistant", css=".file-download {height: 4em !important;}") as window:
+with gr.Blocks(
+    title="JobSeeker's Assistant", 
+    css=".file-download {height: 4em !important;}",
+    theme=gr.themes.Default(font=[gr.themes.GoogleFont("Cascadia Mono"), "Arial", "sans-serif"])
+    ) as window:
     gr.Markdown("# 🤖 Personal Hiring AI Assistant")
+    with gr.Row():
+        with gr.Column():
+            candidate = gr.Textbox(label="Your Name")
+        with gr.Column():
+            company = gr.Textbox(label="Company")
+        with gr.Column():
+            title = gr.Textbox(label="Role/Designation")
 
     with gr.Tab('Resume & Cover Letter'):
         with gr.Row():
             with gr.Column():
-                candidate = gr.Textbox(label="Your Name")
-            with gr.Column():
-                company = gr.Textbox(label="Company")
-            with gr.Column():
-                title = gr.Textbox(label="Role/Designation")
-
-        with gr.Row():
-            with gr.Column():
-                context = gr.Textbox(label="Context", lines=10)
                 resume_btn = gr.Button("Generate Resume")
+                context = gr.Textbox(label="Context", lines=10)
             with gr.Column():                
-                jd_input = gr.Textbox(label="Job Description", lines=10)
                 cover_letter_btn = gr.Button("Generate Cover Letter")
+                jd_input = gr.Textbox(label="Job Description", lines=10)
             with gr.Column():
-                base_resume = gr.Textbox(label="Base Resume in Markdown", value=resume.get_resume(), lines=5)
                 ats_chec_btn = gr.Button("ATS Check & Flaw Report")
+                base_resume = gr.Textbox(label="Base Resume in Markdown", value=resume.get_resume(), lines=5)
         
         with gr.Tab('Resume'):
             with gr.Row():
@@ -105,14 +108,31 @@ with gr.Blocks(title="Hiring Assistant", css=".file-download {height: 4em !impor
             outputs=[ export_cvl_to_docx, export_cvl_to_pdf ]
         )
     
-    with gr.Tab("Message Responder"):
-        email_input = gr.Textbox(label="Recruiter's Message", lines=10)
-        email_output = gr.Textbox(label="Generated Response", lines=5)
-        email_btn = gr.Button("Generate Response")
+    with gr.Tab("Generate Response"):
+        with gr.Row():
+            with gr.Column():
+                email_input = gr.Textbox(label="Recruiter's Message", lines=10)
+                email_btn = gr.Button("Generate Response")
+            with gr.Column():
+                email_output = gr.Textbox(label="Response", lines=10, show_copy_button=True)
+                apply_btn = gr.Button("Generate Email to Apply for JD")
         email_btn.click(
             email.response,
             inputs=email_input,
             outputs=email_output
         )
+    
+    with gr.Tab('Interview Prep'):
+        iv_qna_btn = gr.Button('Conduct Mock Interview')
+        iv_qna_txt = gr.Markdown('Mock Questions & Answers', show_copy_button=True)
+
+    with gr.Tab('Linkedin Profile Boost'):
+        with gr.Row():
+            with gr.Column():
+                about_me_btn = gr.Button('Generate About Me')
+                about_me_txt = gr.Textbox('LinkedIn About Me', lines=10, show_copy_button=True)
+            with gr.Column():
+                conn_req_btn = gr.Button('Connection Request')
+                conn_req_txt = gr.Textbox('Note', lines=10, show_copy_button=True)
  
 window.launch(share=False)

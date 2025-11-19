@@ -50,3 +50,26 @@ def markdown_to_docx_and_pdf(export_config, md_text, name, export_type = "resume
     md_path.unlink()
 
     return docx_path, pdf_path
+
+def read(source):
+    if not isinstance(source, str):
+        raise ValueError("Source must be a string.")
+
+    if source.startswith('file://'):
+        file_path_str = source[7:]  # Remove 'file://' prefix
+        if not file_path_str.strip():
+            raise ValueError("File path is empty or whitespace after 'file://'.")
+
+        file_path = Path(file_path_str)
+        try:
+            return file_path.read_text(encoding='utf-8')
+        except FileNotFoundError:
+            raise FileNotFoundError(f"File not found: {file_path}")
+        except PermissionError:
+            raise PermissionError(f"Permission denied reading file: {file_path}")
+        except UnicodeDecodeError:
+            raise UnicodeDecodeError(f"File encoding error (not UTF-8?): {file_path}")
+        except Exception as e:
+            raise Exception(f"Unexpected error reading file {file_path}: {e}")
+    else:
+        return source
