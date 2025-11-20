@@ -27,7 +27,7 @@
         ]
     },
     "export": {
-        "path": "file://data/content",
+        "path": "data/content",
         "args": {
             "pdf": [
                 "--pdf-engine=wkhtmltopdf",
@@ -41,7 +41,10 @@
     },
     "prompts": {
         "responses": {
-            "prompt": "You are a senior software architect. Generate a crisp, apt, and professional response.\nRecruiter's message:\n{message}\n\nGenerate a response that:\n1. Thanks them for reaching out\n2. Expresses genuine interest\n3. Asks relevant questions\n4. Suggests next steps\n5. Keep it under 200 words. keep it natural and human like.",
+            "prompt": {
+                "message": "You are a senior software architect. Generate a crisp, apt, and professional response.\nRecruiter's message:\n{message}\n\nGenerate a response that:\n1. Thanks them for reaching out\n2. Expresses genuine interest\n3. Asks relevant questions\n4. Suggests next steps\n5. Keep it under 200 words. keep it natural and human like.",
+                "email": "Compose an email to send my resume and cover letter for the {job_title} role at {company} to an employer. Highlight my key achievements at (Previous Companies) and express my enthusiasm for the role. align my achievements and skillsets matching to the job description sounding a perfect fit without sounding forced\n\nJob Description: \n{job_description}\n\nCurrent Resume: \n{resume}. Keep it apt, concise, crisp and impactful. Limit to 200 words"
+            },
             "model": "openai/gpt-oss-120b"
         },
         "resume": {
@@ -49,7 +52,7 @@
             "model": "openai/gpt-oss-120b",
             "input": {
                 "baseResume": "file://data/base-resume.md",
-                "jdAnalysis":"Analyze this job description and extract:\n1. Key technical skills required\n2. Soft skills mentioned\n3. Experience level needed\n4. Industry-specific keywords\n\nJob Description:\n{job_description}\n\nReturn as JSON with keys: technical_skills, soft_skills, experience_level, keywords"
+                "jdAnalysis": "Analyze this job description and extract:\n1. Key technical skills required\n2. Soft skills mentioned\n3. Experience level needed\n4. Industry-specific keywords\n\nJob Description:\n{job_description}\n\nReturn as JSON with keys: technical_skills, soft_skills, experience_level, keywords"
             }
         },
         "coverLetter": {
@@ -61,7 +64,13 @@
         },
         "ats": {
             "prompt": "Act as a recruiter for {company}. I am looking for a {title}. Review my resume below and provide a brutally honest assessment, highlighting weak areas, overused buzzwords, and missing metrics. Use the following job description for reference: {job_description}. \n\nCurrent Resume: {resume}.\n\nPlease provide an overall score for the resume on a scale of 0 to 10 for:\n- Alignment of resume with the job description\n- Fitment to the position\n- Chances in percent of getting shortlisted.\n\nAdditionally, generate actionable recommendations to rewrite the resume for improvement.",
-            "model": "openai/gpt-oss-120b"
+            "model": "llama-3.3-70b-versatile"
+        },
+        "profile": {
+            "model": "openai/gpt-oss-120b",
+            "interview": "Conduct a technical mock interview for the {role} I am applying for, based on the {job_description}. Please ask me 15-20 questions related to the field/technology mentioned in the description. Additionally, provide ideal answers that are crisp and suitable for a 30-second to 1-minute response, ensuring they sound humanized and closely aligned with my {resume}, without being overly idealistic.",
+            "inAboutMe": "Act as an expert LinkedIn copywriter and create a professional yet approachable 'About Me' section for LinkedIn, using the provided resume as a guide. Highlight my years of experience, expertise in key skills, and achievements in notable projects. Ensure the section is concise, under 150 words, and incorporates relevant keywords. Here is my resume: {resume}.",
+            "inConnectionRequest": "Craft a concise LinkedIn connection request to a recruiter for a job posting. In 300 characters or less, express your interest in the position, highlight your core skills that align with the job description, and explain why you are the best fit for the role.\n\nJob Description: \n{job_description}\n\nCurrent Resume: \n{resume}/"
         }
     }
 }

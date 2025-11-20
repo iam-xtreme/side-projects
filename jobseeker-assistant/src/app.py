@@ -6,7 +6,8 @@ from services.email_response import EmailResponse
 from services.resume import Resume
 from services.ats import AtsCheck
 from services.config import Config
-from services.utils import cleanup, markdown_to_docx_and_pdf
+from services.profile import Profile
+from services.utils import cleanup, markdown_to_docx_and_pdf, set_export_config
 
 config = Config()
 
@@ -15,10 +16,11 @@ email=EmailResponse(config.get('prompts.responses'), llm)
 resume=Resume(config.get('prompts.resume'), llm)
 cv=Resume(config.get('prompts.coverLetter'), llm)
 ats=AtsCheck(config.get('prompts.ats'), llm)
+profile=Profile(config.get('prompts.profile'), llm)
 
 # Cleanup export folder with all files having extensions like .md, .docx & .pdf before starting
 cleanup(config.get('export.path'))
-export_config = config.get('export')
+set_export_config(config.get('export'))
 
 with gr.Blocks(
     title="JobSeeker's Assistant", 
@@ -121,18 +123,41 @@ with gr.Blocks(
             inputs=email_input,
             outputs=email_output
         )
+        apply_btn.click(
+            email.apply_email,
+            inputs=[title, company, resume_output, jd_input],
+            outputs=email_output
+        )
     
     with gr.Tab('Interview Prep'):
         iv_qna_btn = gr.Button('Conduct Mock Interview')
-        iv_qna_txt = gr.Markdown('Mock Questions & Answers', show_copy_button=True)
+        iv_qna_txt = gr.Markdown(label='Mock Questions & Answers', show_copy_button=True)
+
+        iv_qna_btn.click(
+            fn=profile.interview,
+            inputs=[title, jd_input, resume_output],
+            outputs=iv_qna_txt
+        )
 
     with gr.Tab('Linkedin Profile Boost'):
         with gr.Row():
             with gr.Column():
                 about_me_btn = gr.Button('Generate About Me')
-                about_me_txt = gr.Textbox('LinkedIn About Me', lines=10, show_copy_button=True)
+                about_me_txt = gr.Textbox(label='LinkedIn About Me', lines=10, show_copy_button=True)
             with gr.Column():
                 conn_req_btn = gr.Button('Connection Request')
-                conn_req_txt = gr.Textbox('Note', lines=10, show_copy_button=True)
+                conn_req_txt = gr.Textbox(label='Note', lines=10, show_copy_button=True)
+            
+            about_me_btn.click(
+                fn=profile.linkedin_about_me,
+                inputs=[resume_output],
+                outputs=about_me_txt
+            )
+            conn_req_btn.click(
+                fn=profile.linkedin_connection,
+                inputs=[jd_input, resume_output],
+                outputs=conn_req_txt
+            )
+
  
 window.launch(share=False)

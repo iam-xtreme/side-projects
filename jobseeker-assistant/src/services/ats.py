@@ -1,4 +1,3 @@
-import markdown2
 import pdfkit
 
 class AtsCheck:

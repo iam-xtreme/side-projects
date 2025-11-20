@@ -1,118 +1,290 @@
 
-# 🚀 Groq-Powered Job Seeker's Assistant
+# 🚀 Job Seeker's Assistant
 
-A lightweight, developer-friendly web application built with **Python**, **Gradio**, and **Groq APIs**.
-This project is currently in **active development**, but you can already self-host it or run it locally.
+A comprehensive AI-powered web application designed to assist job seekers in optimizing their career materials and communication. Built with **Python**, **Gradio**, and integrated with **Groq APIs** for advanced language model capabilities.
+
+This project is currently in **active development**, providing a robust platform for self-hosting or local execution.
+
+## Table of Contents
+
+- [Features](#-features)
+- [Architecture](#-architecture)
+- [Capabilities](#capabilities)
+- [Prerequisites](#-prerequisites)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Usage](#-usage)
+- [Development](#-development)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
 ## 📌 Features
 
-* 🔌 **Groq API integration** (LLM inference)
-* 🧪 **Simple local development setup**
-* 🐳 **Docker support for easy self-hosting**
-* ⚙️ **Environment-based configuration via `.env`**
-* 💻 **Gradio-based UI**
+- 🔌 **Groq API Integration**: Seamless connection to Groq's high-performance LLM inference services
+- 🧪 **Local Development Environment**: Straightforward setup for developers and contributors
+- 🐳 **Docker Containerization**: Easy deployment and self-hosting capabilities
+- ⚙️ **Flexible Configuration**: Environment-based settings via `.env` files
+- 💻 **Intuitive Web Interface**: Modern Gradio-based UI for user-friendly interaction
+- 📄 **Multi-format Export**: Generate and download documents in DOCX and PDF formats
+- 🤖 **AI-Powered Content Generation**: Leverages state-of-the-art language models for personalized outputs
+
+## 🏗️ Architecture
+
+The application follows a modular, service-oriented architecture designed for maintainability and scalability:
+
+### Core Components
+
+- **Main Application (`src/app.py`)**: Gradio-based web interface orchestrating user interactions
+- **Configuration Management (`src/services/config.py`)**: Centralized config loading from JSON and environment variables
+- **LLM Interface (`src/services/llm_interface.py`)**: Abstraction layer for LLM API interactions (Groq and local models)
+- **Service Modules**:
+  - `resume.py`: Intelligent resume generation and optimization
+  - `email_response.py`: Professional email composition for recruiter communications
+  - `ats.py`: ATS compatibility analysis and improvement suggestions
+  - `profile.py`: LinkedIn profile enhancement and interview preparation
+  - `utils.py`: File processing utilities and export functionality
+
+### Data Flow
+
+1. User inputs job descriptions, personal details, and context via the web UI
+2. Configuration is loaded and LLM services are initialized
+3. Service modules process requests using configured prompts and AI models
+4. Generated content is formatted and made available for download or display
 
 ## Capabilities
 
-* Generate Tailored Resume & Cover Letter  as per Job Description & shared context
-* Validate the ATS readiness and provide feedback to optimize the resume.
-* Download the generated resume and cover letter in DOCX & PDF Format.
-* Write impactful & crisp responses/emails to recruiters based on given context.
+- **Resume & Cover Letter Generation**: Create tailored, ATS-optimized resumes and compelling cover letters based on specific job descriptions and user context
+- **ATS Compatibility Analysis**: Evaluate resume effectiveness against Applicant Tracking Systems with detailed feedback and optimization recommendations
+- **Document Export**: Seamlessly convert generated content to professional DOCX and PDF formats
+- **Recruiter Communication**: Generate impactful, concise email responses to recruiter inquiries
+- **Interview Preparation**: Conduct mock technical interviews with AI-generated questions and model answers
+- **LinkedIn Profile Optimization**: Craft professional "About Me" sections and connection request messages
 
 ---
 
-## 🔑 Environment Variables
+## 🔧 Prerequisites
 
-This project **requires a Groq API key**.
+Before running the Job Seeker's Assistant, ensure you have the following:
 
-1. Duplicate `.env.template`
-2. Rename the copy to `.env`
-3. Fill in your Groq API key:
+- **Python 3.8+** (3.13+ recommended)
+- **Groq API Key**: Obtain from [Groq Console](https://console.groq.com/)
+- **Git**: For cloning the repository
+- **Docker** (optional, for containerized deployment)
 
-```
-llm.groq.apiKey=your_api_key_here
-```
+### Dependencies
 
-You **must** have this file present for the application to run.
+The application relies on several Python packages:
 
----
+- `gradio`: Web interface framework
+- `requests`: HTTP client for API calls
+- `python-dotenv`: Environment variable management
+- `pypandoc`: Document conversion utilities
+- `pathlib`: File system operations
 
-# 🧩 Running the App
-
-## Option 1: ▶️ Local Python Development
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/iam-xtreme/side-projects.git
-cd side-projects/jobseeker-assistant
-```
-
-### 2. Create a virtual environment
-
-```bash
-python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-```
-
-### 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Set up environment variables
-
-Copy `.env.template` → `.env`, and add your Groq API key.
-
-### 5. Run the app
-
-```bash
-python3  src/app.py
-```
-
-The Gradio interface will start automatically and provide a local URL.
+All dependencies are listed in `requirements.txt`.
 
 ---
 
-## Option 2: 🐳 Self-Hosting with Docker
+## 📦 Installation
 
-### 1. Build the Docker image
+### Option 1: Local Development Setup
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/iam-xtreme/side-projects.git
+   cd side-projects/jobseeker-assistant
+   ```
+
+2. **Create Virtual Environment**
+
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install Dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Option 2: Docker Deployment
+
+1. **Build Docker Image**
+
+   ```bash
+   docker build -t jobseeker-assistant .
+   ```
+
+2. **Run Container**
+
+   ```bash
+   docker run --env-file .env -p 7860:7860 jobseeker-assistant
+   ```
+
+---
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+The application requires configuration via environment variables for secure API key management.
+
+1. Copy the template file:
+
+   ```bash
+   cp .env.template .env
+   ```
+
+2. Edit `.env` and add your Groq API key:
+
+   ```
+   llm.groq.apiKey=your_groq_api_key_here
+   llm.use=groq
+   ```
+
+**Required Variables:**
+
+- `llm.groq.apiKey`: Your Groq API authentication key
+- `llm.use`: LLM provider selection (default: groq)
+
+**Note:** The `.env` file is mandatory for application startup and should not be committed to version control.
+
+### Configuration Files
+
+- `data/config.json`: Contains application settings, prompts, and model configurations
+- `data/base-resume.md`: Template resume content
+- `data/prompts/`: Directory containing AI prompt templates
+
+---
+
+## 🚀 Usage
+
+### Starting the Application
+
+**Local Development:**
 
 ```bash
-docker build -t jobseeker-assistant .
+python src/app.py
 ```
 
-### 2. Run the container
-
-You must pass your `.env` file:
+**Docker:**
 
 ```bash
 docker run --env-file .env -p 7860:7860 jobseeker-assistant
 ```
 
-Visit: **[http://localhost:7860](http://localhost:7860)**
+Access the web interface at `http://localhost:7860`
+
+### User Interface Overview
+
+The application provides a tabbed interface with the following sections:
+
+1. **Resume & Cover Letter**: Generate customized career documents
+2. **Generate Response**: Create professional email communications
+3. **Interview Prep**: Practice with AI-generated interview scenarios
+4. **LinkedIn Profile Boost**: Optimize professional networking content
+
+### Workflow
+
+1. Input job description and personal details
+2. Generate tailored content using AI
+3. Review and refine outputs
+4. Export documents in desired formats
 
 ---
 
-## 🧪 Development Notes
+## 🛠️ Development
 
-* Hot-reloading is not enabled by default; restart after code changes.
-* The project is in **development phase**, APIs or UI may change often.
-* Contributions are welcome—feel free to open issues or PRs.
+### Project Structure
+
+```
+jobseeker-assistant/
+├── src/
+│   ├── app.py                 # Main Gradio application
+│   └── services/              # Service modules
+│       ├── ats.py             # ATS analysis
+│       ├── config.py          # Configuration management
+│       ├── email_response.py  # Email generation
+│       ├── llm_interface.py   # LLM API abstraction
+│       ├── profile.py         # Profile optimization
+│       ├── resume.py          # Resume generation
+│       └── utils.py           # Utilities
+├── data/
+│   ├── config.json            # Application configuration
+│   ├── base-resume.md         # Resume template
+│   └── prompts/               # AI prompt templates
+├── Dockerfile                 # Container definition
+├── requirements.txt           # Python dependencies
+└── README.md                  # This file
+```
+
+### Development Notes
+
+- **Hot Reloading**: Not enabled by default; restart server after code changes
+- **Testing**: Currently in development phase; APIs and UI may evolve
+- **Logging**: Console output provides execution feedback
+- **File Management**: Temporary files are automatically cleaned up
+
+### API Reference
+
+While the application is primarily UI-driven, the core services can be used programmatically:
+
+```python
+from services.config import Config
+from services.resume import Resume
+from services.llm_interface import LLMInterface
+
+config = Config()
+llm = LLMInterface(config.get('llm'))
+resume_service = Resume(config.get('prompts.resume'), llm)
+
+# Generate resume
+result = resume_service.generate(job_description, company, title, context)
+```
 
 ---
 
-## 🛠️ Requirements
+## 🤝 Contributing
 
-* Python 3.13+
-* Groq API key
-* (Optional) Docker
+We welcome contributions to improve the Job Seeker's Assistant!
+
+### How to Contribute
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Make your changes and test thoroughly
+4. Commit with descriptive messages: `git commit -m "Add feature description"`
+5. Push to your branch: `git push origin feature/your-feature-name`
+6. Submit a Pull Request
+
+### Development Guidelines
+
+- Follow PEP 8 style guidelines
+- Add type hints where appropriate
+- Include docstrings for new functions
+- Test changes locally before submitting
+- Update documentation for significant changes
+
+### Reporting Issues
+
+- Use GitHub Issues for bug reports and feature requests
+- Provide detailed reproduction steps
+- Include relevant error messages and system information
 
 ---
 
 ## 📄 License
 
-Add your license here (MIT, Apache-2.0, etc.)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- [Groq](https://groq.com/) for providing high-performance LLM inference
+- [Gradio](https://gradio.app/) for the intuitive web interface framework
+- [Pandoc](https://pandoc.org/) for document conversion capabilities

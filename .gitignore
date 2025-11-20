@@ -6,3 +6,5 @@
 */**/__pycache__/*
 */**/venv/*
 */**/.env
+*/**/data/content/*.docx
+*/**/data/content/*.pdf
