@@ -1,5 +1,5 @@
 
-# 🚀 Job Seeker's Assistant
+# 🚀 Career Genie
 
 A comprehensive AI-powered web application designed to assist job seekers in optimizing their career materials and communication. Built with **Python**, **Gradio**, and integrated with **Groq APIs** for advanced language model capabilities.
 
@@ -30,6 +30,15 @@ This project is currently in **active development**, providing a robust platform
 - 📄 **Multi-format Export**: Generate and download documents in DOCX and PDF formats
 - 🤖 **AI-Powered Content Generation**: Leverages state-of-the-art language models for personalized outputs
 
+## Capabilities
+
+- **Resume & Cover Letter Generation**: Create tailored, ATS-optimized resumes and compelling cover letters based on specific job descriptions and user context
+- **ATS Compatibility Analysis**: Evaluate resume effectiveness against Applicant Tracking Systems with detailed feedback and optimization recommendations
+- **Document Export**: Seamlessly convert generated content to professional DOCX and PDF formats
+- **Recruiter Communication**: Generate impactful, concise email responses to recruiter inquiries
+- **Interview Preparation**: Conduct mock technical interviews with AI-generated questions and model answers
+- **LinkedIn Profile Optimization**: Craft professional "About Me" sections and connection request messages
+
 ## 🏗️ Architecture
 
 The application follows a modular, service-oriented architecture designed for maintainability and scalability:
@@ -52,15 +61,6 @@ The application follows a modular, service-oriented architecture designed for ma
 2. Configuration is loaded and LLM services are initialized
 3. Service modules process requests using configured prompts and AI models
 4. Generated content is formatted and made available for download or display
-
-## Capabilities
-
-- **Resume & Cover Letter Generation**: Create tailored, ATS-optimized resumes and compelling cover letters based on specific job descriptions and user context
-- **ATS Compatibility Analysis**: Evaluate resume effectiveness against Applicant Tracking Systems with detailed feedback and optimization recommendations
-- **Document Export**: Seamlessly convert generated content to professional DOCX and PDF formats
-- **Recruiter Communication**: Generate impactful, concise email responses to recruiter inquiries
-- **Interview Preparation**: Conduct mock technical interviews with AI-generated questions and model answers
-- **LinkedIn Profile Optimization**: Craft professional "About Me" sections and connection request messages
 
 ---
 
@@ -95,7 +95,7 @@ All dependencies are listed in `requirements.txt`.
 
    ```bash
    git clone https://github.com/iam-xtreme/side-projects.git
-   cd side-projects/jobseeker-assistant
+   cd side-projects/career-genie
    ```
 
 2. **Create Virtual Environment**
@@ -116,13 +116,13 @@ All dependencies are listed in `requirements.txt`.
 1. **Build Docker Image**
 
    ```bash
-   docker build -t jobseeker-assistant .
+   docker build -t career-genie .
    ```
 
 2. **Run Container**
 
    ```bash
-   docker run --env-file .env -p 7860:7860 jobseeker-assistant
+   docker run --env-file .env -p 7860:7860 career-genie
    ```
 
 ---
@@ -174,7 +174,7 @@ python src/app.py
 **Docker:**
 
 ```bash
-docker run --env-file .env -p 7860:7860 jobseeker-assistant
+docker run --env-file .env -p 7860:7860 career-genie
 ```
 
 Access the web interface at `http://localhost:7860`
@@ -197,12 +197,29 @@ The application provides a tabbed interface with the following sections:
 
 ---
 
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="images/1-loading-page.png" alt="Fresh empty home" width="300"/></td>
+    <td><img src="images/2-generated-resume.png" alt="Filling out a contact form" width="300"/></td>
+    <td><img src="images/3-cover-letter.png" alt="Contact detail view" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="images/4-ats-check.png" alt="Home with three contacts" width="300"/></td>
+    <td><img src="images/5-mock-interview-qna.png" alt="Another contact detail" width="300"/></td>
+    <td><img src="images/6-email-to-recuriter.png" alt="Home with ten contacts" width="300"/></td>
+  </tr>
+</table>
+
+---
+
 ## 🛠️ Development
 
 ### Project Structure
 
 ```
-jobseeker-assistant/
+career-genie/
 ├── src/
 │   ├── app.py                 # Main Gradio application
 │   └── services/              # Service modules

@@ -8,7 +8,7 @@ services:
     ports:
       - "7860:7860"
     environment:
-      - API_KEY=${API_KEY}
+      - llm.groq.apiKey=${API_KEY}
     volumes:
       - ./data:/app/data
     command: >

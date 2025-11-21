@@ -23,11 +23,14 @@ cleanup(config.get('export.path'))
 set_export_config(config.get('export'))
 
 with gr.Blocks(
-    title="JobSeeker's Assistant", 
+    title="Career Genie", 
     css=".file-download {height: 4em !important;}",
     theme=gr.themes.Default(font=[gr.themes.GoogleFont("Cascadia Mono"), "Arial", "sans-serif"])
-    ) as window:
-    gr.Markdown("# 🤖 Personal Hiring AI Assistant")
+    ) as demo:
+    gr.Markdown(f"\
+    # 🤖 Career Genie - AI-Powered Job Applications & Career Tools \
+    \n\n### Craft high-impact resumes, cover letters, and recruiter responses with AI built for job seekers.\
+    \n\nTo get started enter the name desired company to apply and the role/designation you want to apply for")
     with gr.Row():
         with gr.Column():
             candidate = gr.Textbox(label="Your Name")
@@ -39,14 +42,14 @@ with gr.Blocks(
     with gr.Tab('Resume & Cover Letter'):
         with gr.Row():
             with gr.Column():
-                resume_btn = gr.Button("Generate Resume")
                 context = gr.Textbox(label="Context", lines=10)
+                resume_btn = gr.Button("Generate Resume")
             with gr.Column():                
-                cover_letter_btn = gr.Button("Generate Cover Letter")
                 jd_input = gr.Textbox(label="Job Description", lines=10)
+                cover_letter_btn = gr.Button("Generate Cover Letter")
             with gr.Column():
-                ats_chec_btn = gr.Button("ATS Check & Flaw Report")
                 base_resume = gr.Textbox(label="Base Resume in Markdown", value=resume.get_resume(), lines=5)
+                ats_chec_btn = gr.Button("ATS Check & Flaw Report")
         
         with gr.Tab('Resume'):
             with gr.Row():
@@ -160,4 +163,4 @@ with gr.Blocks(
             )
 
  
-window.launch(share=False)
+demo.launch()
