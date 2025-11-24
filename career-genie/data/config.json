@@ -30,7 +30,7 @@
         "path": "data/content",
         "args": {
             "pdf": [
-                "--pdf-engine=wkhtmltopdf",
+                "--pdf-engine=lualatex",
                 "--variable",
                 "geometry:margin=1cm"
             ],

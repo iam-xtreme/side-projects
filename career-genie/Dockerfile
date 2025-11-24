@@ -1,9 +1,9 @@
 # Use an official lightweight Python image
 FROM python:3.11-slim
 
-# Install system dependencies for wkhtmltopdf and pandoc
+# Install system dependencies for luatex and pandoc
 RUN apt-get update && apt-get install -y \
-    wkhtmltopdf \
+    texlive-luatex \
     pandoc \
     && rm -rf /var/lib/apt/lists/*
 
