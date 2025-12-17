@@ -32,7 +32,15 @@
             "pdf": [
                 "--pdf-engine=lualatex",
                 "--variable",
-                "geometry:margin=1cm"
+                "geometry:margin=1cm",
+                "--variable",
+                "papersize=a4",
+                "--variable",
+                "mainfont='Nimbus Roman'",
+                "--variable",
+                "fontsize=11pt",
+                "--variable",
+                "linestretch=0.5"
             ],
             "docx": [
                 "--reference-doc=data/reference.docx"
