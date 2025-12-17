@@ -36,11 +36,11 @@
                 "--variable",
                 "papersize=a4",
                 "--variable",
-                "mainfont='Nimbus Roman'",
+                "mainfont=Lato",
                 "--variable",
                 "fontsize=11pt",
                 "--variable",
-                "linestretch=0.5"
+                "linestretch=1"
             ],
             "docx": [
                 "--reference-doc=data/reference.docx"

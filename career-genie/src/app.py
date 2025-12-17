@@ -104,12 +104,12 @@ with gr.Blocks(
         )
         export_resume_btn.click(
             markdown_to_docx_and_pdf,
-            inputs=[resume_output, candidate, resume_btn],
+            inputs=[resume_output, candidate, title, resume_btn],
             outputs=[ export_resume_to_docx, export_resume_to_pdf ]
         )
         export_cvl_btn.click(
             markdown_to_docx_and_pdf,
-            inputs=[cover_letter_op, candidate, cover_letter_btn],
+            inputs=[cover_letter_op, candidate, title, cover_letter_btn],
             outputs=[ export_cvl_to_docx, export_cvl_to_pdf ]
         )
     
