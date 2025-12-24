@@ -64,7 +64,7 @@ with gr.Blocks(
                 with gr.Column():
                     resume_output = gr.Textbox(label="Generated Resume", lines=10)
                 with gr.Column():
-                    resume_output_mdv = gr.Markdown(label="Generated Cover Letter", show_copy_button=True)
+                    resume_output_mdv = gr.Markdown(label="Generated Cover Letter",  buttons=["copy"])
                     resume_output.change(fn=lambda x: x, inputs=resume_output, outputs=resume_output_mdv)
         
         with gr.Tab('Cover Letter'):
@@ -80,11 +80,11 @@ with gr.Blocks(
                 with gr.Column():
                     cover_letter_op = gr.Textbox(label="Generated Cover Letter", lines=10)
                 with gr.Column():
-                    cover_letter_op_mdv = gr.Markdown(label="Generated Cover Letter", show_copy_button=True)
+                    cover_letter_op_mdv = gr.Markdown(label="Generated Cover Letter",  buttons=["copy"])
                     cover_letter_op.change(fn=lambda x: x, inputs=cover_letter_op, outputs=cover_letter_op_mdv)
 
         with gr.Tab('ATS Check'):
-            ats_chec_op_mdv = gr.Markdown(label="ATS Check", show_copy_button=True)
+            ats_chec_op_mdv = gr.Markdown(label="ATS Check",  buttons=["copy"])
 
         ats_chec_btn.click(
             fn=ats.check,
@@ -119,7 +119,7 @@ with gr.Blocks(
                 email_input = gr.Textbox(label="Recruiter's Message", lines=10)
                 email_btn = gr.Button("Generate Response")
             with gr.Column():
-                email_output = gr.Textbox(label="Response", lines=10, show_copy_button=True)
+                email_output = gr.Textbox(label="Response", lines=10,  buttons=["copy"])
                 apply_btn = gr.Button("Generate Email to Apply for JD")
         email_btn.click(
             email.response,
@@ -134,7 +134,7 @@ with gr.Blocks(
     
     with gr.Tab('Interview Prep'):
         iv_qna_btn = gr.Button('Conduct Mock Interview')
-        iv_qna_txt = gr.Markdown(label='Mock Questions & Answers', show_copy_button=True)
+        iv_qna_txt = gr.Markdown(label='Mock Questions & Answers',  buttons=["copy"])
 
         iv_qna_btn.click(
             fn=profile.interview,
@@ -146,10 +146,10 @@ with gr.Blocks(
         with gr.Row():
             with gr.Column():
                 about_me_btn = gr.Button('Generate About Me')
-                about_me_txt = gr.Textbox(label='LinkedIn About Me', lines=10, show_copy_button=True)
+                about_me_txt = gr.Textbox(label='LinkedIn About Me', lines=10,  buttons=["copy"])
             with gr.Column():
                 conn_req_btn = gr.Button('Connection Request')
-                conn_req_txt = gr.Textbox(label='Note', lines=10, show_copy_button=True)
+                conn_req_txt = gr.Textbox(label='Note', lines=10,  buttons=["copy"])
             
             about_me_btn.click(
                 fn=profile.linkedin_about_me,
