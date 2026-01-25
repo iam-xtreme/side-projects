@@ -36,7 +36,7 @@
                 "--variable",
                 "papersize=a4",
                 "--variable",
-                "mainfont=Lato",
+                "mainfont=TeX Gyre Heros",
                 "--variable",
                 "fontsize=11pt",
                 "--variable",

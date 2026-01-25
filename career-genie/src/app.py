@@ -23,9 +23,7 @@ cleanup(config.get('export.path'))
 set_export_config(config.get('export'))
 
 with gr.Blocks(
-    title="Career Genie", 
-    css=".file-download {height: 4em !important;}",
-    theme=gr.themes.Default(font=[gr.themes.GoogleFont("Cascadia Mono"), "Arial", "sans-serif"])
+    title="Career Genie"
     ) as demo:
     gr.Markdown(f"\
     # 🤖 Career Genie - AI-Powered Job Applications & Career Tools \
@@ -163,4 +161,7 @@ with gr.Blocks(
             )
 
  
-demo.launch()
+demo.launch(
+    css=".file-download {height: 4em !important;}",
+    theme=gr.themes.Default(font=[gr.themes.GoogleFont("Cascadia Mono"), "Arial", "sans-serif"])
+)
