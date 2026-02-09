@@ -7,6 +7,7 @@ from services.resume import Resume
 from services.ats import AtsCheck
 from services.config import Config
 from services.profile import Profile
+from services.base_resume_score import BaseScore
 from services.utils import cleanup, markdown_to_docx_and_pdf, set_export_config
 
 config = Config()
@@ -17,6 +18,7 @@ resume=Resume(config.get('prompts.resume'), llm)
 cv=Resume(config.get('prompts.coverLetter'), llm)
 ats=AtsCheck(config.get('prompts.ats'), llm)
 profile=Profile(config.get('prompts.profile'), llm)
+score=BaseScore(config.get('prompts.score'), llm)
 
 # Cleanup export folder with all files having extensions like .md, .docx & .pdf before starting
 cleanup(config.get('export.path'))
@@ -40,13 +42,13 @@ with gr.Blocks(
     with gr.Tab('Resume & Cover Letter'):
         with gr.Row():
             with gr.Column():
-                context = gr.Textbox(label="Context", lines=10)
+                context = gr.Textbox(label="Context", lines=10, max_lines=10)
                 resume_btn = gr.Button("Generate Resume")
             with gr.Column():                
-                jd_input = gr.Textbox(label="Job Description", lines=10)
+                jd_input = gr.Textbox(label="Job Description", lines=10, max_lines=10)
                 cover_letter_btn = gr.Button("Generate Cover Letter")
             with gr.Column():
-                base_resume = gr.Textbox(label="Base Resume in Markdown", value=resume.get_resume(), lines=5)
+                base_resume = gr.Textbox(label="Base Resume in Markdown", value=resume.get_resume(), lines=5, max_lines=10)
                 ats_chec_btn = gr.Button("ATS Check & Flaw Report")
         
         with gr.Tab('Resume'):
@@ -81,6 +83,12 @@ with gr.Blocks(
                     cover_letter_op_mdv = gr.Markdown(label="Generated Cover Letter",  buttons=["copy"])
                     cover_letter_op.change(fn=lambda x: x, inputs=cover_letter_op, outputs=cover_letter_op_mdv)
 
+        with gr.Tab("Base Resume Score"):
+            with gr.Row():
+                score_btn = gr.Button("Get Score")
+            with gr.Row():
+                mdv_score = gr.Markdown(label="Generated Score",  buttons=["copy"])
+                
         with gr.Tab('ATS Check'):
             ats_chec_op_mdv = gr.Markdown(label="ATS Check",  buttons=["copy"])
 
@@ -109,6 +117,11 @@ with gr.Blocks(
             markdown_to_docx_and_pdf,
             inputs=[cover_letter_op, candidate, title, cover_letter_btn],
             outputs=[ export_cvl_to_docx, export_cvl_to_pdf ]
+        )
+        score_btn.click(
+            fn=score.check,
+            inputs=[jd_input],
+            outputs=[mdv_score]
         )
     
     with gr.Tab("Generate Response"):
