@@ -3,6 +3,9 @@
         "groq": {
             "url": "https://api.groq.com/openai/v1/chat/completions"
         },
+        "openrouter":{
+            "url": "https://openrouter.ai/api/v1/chat/completions"
+        },
         "models": [
             "meta-llama/llama-prompt-guard-2-86m",
             "openai/gpt-oss-safeguard-20b",
