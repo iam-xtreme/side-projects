@@ -1,10 +1,10 @@
 {
     "llm": {
         "groq": {
-            "url": "https://api.groq.com/openai/v1/chat/completions"
+            "url": "https://api.groq.com/openai/v1"
         },
         "openrouter":{
-            "url": "https://openrouter.ai/api/v1/chat/completions"
+            "url": "https://openrouter.ai/api/v1"
         },
         "models": [
             "meta-llama/llama-prompt-guard-2-86m",
