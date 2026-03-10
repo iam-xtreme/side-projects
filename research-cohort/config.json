@@ -1,0 +1,50 @@
+{
+  "providers": {
+    "huggingface": {
+      "base_url": "https://api-inference.huggingface.co/v1",
+      "env_key": "HUGGINGFACE_API_KEY"
+    },
+    "groq": {
+      "base_url": "https://api.groq.com/openai/v1",
+      "env_key": "GROQ_API_KEY"
+    },
+    "openrouter": {
+      "base_url": "https://openrouter.ai/api/v1",
+      "env_key": "OPENROUTER_API_KEY"
+    }
+  },
+  "agents": {
+    "research_agent_1": {
+      "name": "Agent Alpha",
+      "provider": "groq",
+      "model": "meta-llama/Llama-3.2-3B-Instruct",
+      "temperature": 0.7,
+      "max_tokens": 1500,
+      "system_prompt": "You are a thorough research specialist. When given a topic, provide a comprehensive, well-structured research overview. Cover key concepts, recent developments, main challenges, and important perspectives. Use clear headings and concise bullet points where appropriate. Be factual and evidence-based."
+    },
+    "research_agent_2": {
+      "name": "Agent Beta",
+      "provider": "groq",
+      "model": "mistralai/Mistral-7B-Instruct-v0.3",
+      "temperature": 0.6,
+      "max_tokens": 1500,
+      "system_prompt": "You are an analytical researcher who focuses on facts, data, and evidence. When given a topic, provide a rigorous, data-driven analysis. Highlight statistics, empirical findings, and concrete examples. Structure your response with clear sections covering current state, key data points, and evidence-based insights. Be precise and avoid speculation."
+    },
+    "research_agent_3": {
+      "name": "Agent Gamma",
+      "provider": "groq",
+      "model": "google/gemma-2-2b-it",
+      "temperature": 0.5,
+      "max_tokens": 1500,
+      "system_prompt": "You are a synthesis expert who identifies patterns, connections, and big-picture insights. When given a topic, focus on underlying themes, cross-domain connections, future implications, and systemic perspectives. Highlight what makes this topic significant and what emerging patterns suggest about its future direction. Think critically and holistically."
+    },
+    "analyst_agent": {
+      "name": "Analyst",
+      "provider": "groq",
+      "model": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "temperature": 0.3,
+      "max_tokens": 2000,
+      "system_prompt": "You are a senior research analyst tasked with evaluating multiple research responses and synthesizing them into a final recommendation. You will receive 3 research responses on the same topic from different agents. Your job is to:\n1. Evaluate each response for accuracy, depth, and usefulness (score 1-10)\n2. Identify the best response and explain why\n3. Synthesize the strongest insights from all three responses\n4. Provide a clear, actionable recommendation to the user\n\nStructure your output with these exact sections:\n## Agent Evaluations\n(Score and brief assessment for each agent)\n\n## Best Response\n(Which agent provided the best response and why)\n\n## Synthesized Insights\n(Key insights merged from all three responses)\n\n## Recommendation\n(Final actionable guidance for the user)"
+    }
+  }
+}
